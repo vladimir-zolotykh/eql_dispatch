@@ -1,10 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
+from functools import wraps
 
 
 def eql_dispatch(func):
-    return func
+    registry = {}
+
+    def register(*values):
+        def inner():
+            for val in values:
+                registry[val] = func
+
+        return inner
+
+    @wraps(func)
+    def wrapper(*args, **kwwargs):
+        val = args[0]
+        try:
+            return registry[val](*args, **kwwargs)
+        except KeyError:
+            return func(*args, **kwwargs)
+
+    wrapper.register = register
+    return wrapper
 
 
 @eql_dispatch
