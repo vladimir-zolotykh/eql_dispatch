@@ -7,11 +7,9 @@ class Singleton(type):
     _instances = {}
 
     def __call__(cls, *args, **kwargs):
-        name = args[0]
-        saved = type(cls)._instances
-        if cls not in saved:
+        if cls not in (saved := type(cls)._instances):
             saved.setdefault(cls, {})
-        if name not in saved[cls]:
+        if (name := args[0]) not in saved[cls]:
             saved[cls][name] = super().__call__(*args, **kwargs)
         return saved[cls][name]
 
