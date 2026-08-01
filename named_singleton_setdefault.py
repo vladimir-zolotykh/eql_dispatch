@@ -20,10 +20,22 @@ class Logger(metaclass=Singleton):
         print(f"Initializing logger {name!r}")
 
 
+class Test:
+    """
+    >>> c1 = Logger("console")
+    Initializing logger 'console'
+    >>> c2 = Logger("console")
+    >>> c1 is c2
+    True
+    >>> s1 = Logger("stream")
+    Initializing logger 'stream'
+    >>> s2 = Logger("stream")
+    >>> s1 is s2
+    True
+    """
+
+
 if __name__ == "__main__":
-    c1 = Logger("console")
-    c2 = Logger("console")
-    assert c1 is c2
-    s1 = Logger("stream")
-    s2 = Logger("stream")
-    assert s1 is s2
+    import doctest
+
+    doctest.testmod()
