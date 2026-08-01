@@ -8,9 +8,9 @@ def eql_dispatch(func):
     registry = {}
 
     def register(*values):
-        def inner():
+        def inner(_func):  # def _(num):
             for val in values:
-                registry[val] = func
+                registry[val] = _func
 
         return inner
 
@@ -37,13 +37,13 @@ def _(num):
 
 
 @name_number.register(1, 3, 5)
-def name_number(num):
-    print(f"{num!r}: zero")
+def _(num):
+    print(f"{num!r}: 1-3-5")
 
 
 @name_number.register(2, 4, 6)
 def _(num):
-    print(f"{num!r}: enen")
+    print(f"{num!r}: 2-4-6")
 
 
 if __name__ == "__main__":
