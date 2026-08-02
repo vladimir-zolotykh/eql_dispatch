@@ -28,7 +28,7 @@ class BunchMeta(type):
         for key, val in ns0.items():
             if key[:2] == "__" and key[-2:] == "__":
                 if key in reserved:
-                    raise RuntimeError(f"Cannot overwrite {key}")
+                    raise TypeError(f"Cannot overwrite {key}")
             else:
                 defaults[key] = val
                 del ns[key]
@@ -62,6 +62,15 @@ class Test:
     Point(x=3, y=4, color='yellow')
     >>> str(p)
     'Point(3, 4, yellow)'
+    >>> class Line(metaclass=BunchMeta):
+    ...     x = 0.0
+    ...     y = 0.0
+    ...     def __repr__(self):
+    ...             pass
+    ...
+    Traceback (most recent call last):
+    ...
+    TypeError: Cannot overwrite __repr__
     """
 
 
