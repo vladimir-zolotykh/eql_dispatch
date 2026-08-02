@@ -54,6 +54,14 @@ class Test:
     Traceback (most recent call last):
     ...
     AttributeError: 'Person' object has no attribute 'mission'
+    >>> p = Point()
+    >>> p
+    Point()
+    >>> p = Point(x=3, y=4, color='yellow')
+    >>> p
+    Point(x=3, y=4, color='yellow')
+    >>> str(p)
+    'Point(3, 4, yellow)'
     """
 
 
@@ -61,6 +69,15 @@ class Person(metaclass=BunchMeta):
     name = "Bob"
     age = 37
     salary = 12000.0
+
+
+class Point(metaclass=BunchMeta):
+    x = 0.0
+    y = 0.0
+    color = "gray"
+
+    def __str__(self):
+        return f"{type(self).__name__}({self.x}, {self.y}, {self.color})"
 
 
 if __name__ == "__main__":
