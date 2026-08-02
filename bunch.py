@@ -12,8 +12,7 @@ class BunchMeta(type):
                 val = kwargs.pop(key) if key in kwargs else defaults[key]
                 setattr(self, key, val)
             if kwargs:
-                # raise ValueError(f"{list(kwargs)}: were not used")
-                raise AttributeError(f"No slots left for {list(kwargs)}")
+                raise AttributeError(f"No slots left for {', '.join(kwargs)!r}")
 
         def repr(self, *args, **kwargs):
             args = ", ".join(
@@ -49,7 +48,7 @@ class Test:
     >>> bob = Person(name='Bob', age=43, job='Engineer')
     Traceback (most recent call last):
     ...
-    AttributeError: No slots left for ['job']
+    AttributeError: No slots left for 'job'
     >>> bob.mission = 'Save the world'
     Traceback (most recent call last):
     ...
