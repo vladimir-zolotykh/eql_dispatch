@@ -50,6 +50,10 @@ class Test:
     Traceback (most recent call last):
     ...
     AttributeError: No slots left for ['job']
+    >>> bob.mission = 'Save the world'
+    Traceback (most recent call last):
+    ...
+    AttributeError: 'Person' object has no attribute 'mission'
     """
 
 
