@@ -4,7 +4,7 @@
 
 
 class BunchMeta(type):
-    def __new__(mcls, name, bases, ns):
+    def __new__(mcls, name, bases, ns0):
         defaults = {}
 
         def init(self, *args, **kwargs):
@@ -20,14 +20,16 @@ class BunchMeta(type):
                 for key in defaults
                 if getattr(self, key) != defaults[key]
             )
-            return type(self).__name__({args})
+            return f"{type(self).__name__}({args})"
 
         reserved = {"__init__": init, "__repr__": repr}
-        for key, val in ns.items():
-            if key[2:] == "__" and key[-2:] == "__":
+        ns = dict(ns0)
+        for key, val in ns0.items():
+            if key[:2] == "__" and key[-2:] == "__":
                 if key in reserved:
                     raise RuntimeError(f"Cannot overwrite {key}")
             else:
+                del ns[key]
                 defaults[key] = val
         ns["__slots__"] = list(defaults)
         ns["__init__"] = init
