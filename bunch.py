@@ -95,6 +95,11 @@ class Test:
     Person(name='Max', age=39)
     >>> max.salary
     12000.0
+    >>> max = Person('Max', 39, 11000.0, 'Senior Java Dev')
+    Traceback (most recent call last):
+    ...
+    AttributeError: No slots left for 'Senior Java Dev'
+
     """
 
 
