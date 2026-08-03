@@ -119,7 +119,6 @@ class Point(metaclass=BunchMeta):
 
 
 if __name__ == "__main__":
-    bob = Person()
-    print(bob)
-    bob = Person(age=38)
-    print(bob)
+    import doctest
+
+    doctest.testmod()
