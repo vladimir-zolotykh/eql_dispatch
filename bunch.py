@@ -7,12 +7,26 @@ class BunchMeta(type):
     def __new__(mcls, name, bases, ns0):
         defaults = {}
 
-        def init(self, *args, **kwargs):
+        def _init_kwargs(self, **kwargs):
             for key in defaults:
                 val = kwargs.pop(key) if key in kwargs else defaults[key]
                 setattr(self, key, val)
             if kwargs:
                 raise AttributeError(f"No slots left for {', '.join(kwargs)!r}")
+
+        def _init_args(self, *args):
+            que = list(args[1:])
+            for key in defaults:
+                val = que.pop(0)
+                setattr(self, key, val)
+            if que:
+                raise AttributeError(f"No slots left for {', '.join(que)!r}")
+
+        def init(self, *args, **kwargs):
+            if args:
+                self._init_args(self, *args)
+                return
+            self._init_kwargs(**kwargs)
 
         def repr(self, *args, **kwargs):
             args = ", ".join(
@@ -33,6 +47,8 @@ class BunchMeta(type):
                 del ns[key]
         ns["__slots__"] = list(defaults)
         ns["__init__"] = init
+        ns["_init_args"] = _init_args
+        ns["_init_kwargs"] = _init_kwargs
         ns["__repr__"] = repr
         return super().__new__(mcls, name, bases, ns)
 
@@ -70,6 +86,9 @@ class Test:
     Traceback (most recent call last):
     ...
     TypeError: Cannot overwrite __repr__
+    >>> max = Person('Max', 42, 25000.0)
+    >>> max
+    Person(name='Max', age=42, salary=25000.0)
     """
 
 
