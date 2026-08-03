@@ -90,6 +90,11 @@ class Test:
     >>> max = Person('Max', 42, 25000.0)
     >>> max
     Person(name='Max', age=42, salary=25000.0)
+    >>> max = Person('Max', 39)
+    >>> max
+    Person(name='Max', age=39)
+    >>> max.salary
+    12000.0
     """
 
 
