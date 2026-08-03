@@ -16,8 +16,9 @@ class BunchMeta(type):
 
         def _init_args(self, *args):
             que = list(args[1:])
-            for key in defaults:
-                val = que.pop(0)
+            for key, val in defaults.items():
+                if len(que) > 0:
+                    val = que.pop(0)
                 setattr(self, key, val)
             if que:
                 raise AttributeError(f"No slots left for {', '.join(que)!r}")
